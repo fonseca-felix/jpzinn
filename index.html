@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Defense: Proteja sua Smart Home | Simulador IoT SESI/SENAI</title>
+    <meta name="description" content="Simulador educativo de cibersegurança em IoT para o curso Técnico em Desenvolvimento de Sistemas (SESI/SENAI).">
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/isometric-map.css">
+    <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+
+    <div id="app-layout">
+        <!-- ==========================================
+             1. SIDEBAR FIXA ESQUERDA
+             ========================================== -->
+        <aside id="app-sidebar">
+            <div class="sidebar-brand-container">
+                <div class="brand-icon-shield">
+                    <!-- Ícone Casa com Escudo Holográfico SVG -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L2 9v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9l-10-7zm0 2.25l8 5.75v9H4V10l8-5.75zm0 3.75a5 5 0 0 0-5 5c0 3.5 5 6.5 5 6.5s5-3 5-6.5a5 5 0 0 0-5-5zm0 2a3 3 0 0 1 3 3c0 1.5-2 3.5-3 4.4-1-.9-3-2.9-3-4.4a3 3 0 0 1 3-3z"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>CYBER DEFENSE</h1>
+                    <span class="brand-tag-sesi">SESI / SENAI LAB</span>
+                </div>
+            </div>
+
+            <!-- Menu de Navegação Profissional -->
+            <nav class="sidebar-nav-menu">
+                <a href="#home" class="nav-link active" data-view="home">
+                    <span class="nav-icon" data-icon="home"></span>
+                    <span>Início</span>
+                </a>
+                <a href="#game" class="nav-link" data-view="game">
+                    <span class="nav-icon" data-icon="gamepad"></span>
+                    <span>Jogar</span>
+                </a>
+                <a href="#howto" class="nav-link" data-view="howto">
+                    <span class="nav-icon" data-icon="book"></span>
+                    <span>Como Jogar</span>
+                </a>
+                <a href="#progress" class="nav-link" data-view="progress">
+                    <span class="nav-icon" data-icon="barChart"></span>
+                    <span>Progresso</span>
+                </a>
+                <a href="#achievements" class="nav-link" data-view="achievements">
+                    <span class="nav-icon" data-icon="award"></span>
+                    <span>Conquistas</span>
+                </a>
+                <a href="#knowledge" class="nav-link" data-view="knowledge">
+                    <span class="nav-icon" data-icon="database"></span>
+                    <span>Conteúdos IoT</span>
+                </a>
+                <a href="#settings" class="nav-link" data-view="settings">
+                    <span class="nav-icon" data-icon="settings"></span>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+
+            <!-- Rodapé da Sidebar com Status do SOC -->
+            <div class="sidebar-footer-card">
+                <div class="soc-pulse-indicator">
+                    <span class="live-dot"></span>
+                    <span>SOC MONITOR // ATIVO</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ==========================================
+             2. TOPBAR FIXA SUPERIOR
+             ========================================== -->
+        <div id="main-viewport">
+            <header id="app-topbar">
+                <div class="topbar-left-cluster">
+                    <!-- Indicador de Nível Atual -->
+                    <div class="level-badge-box">
+                        <span class="level-tag" id="topbar-level-display">NÍVEL 1</span>
+                        <select id="topbar-level-select" class="level-select-cyber" title="Trocar Nível">
+                            <option value="1">Nível 1 (Básico: Casa Conectada)</option>
+                            <option value="2">Nível 2 (Rede & Automação)</option>
+                            <option value="3">Nível 3 (Ataque Ativo / Avançado)</option>
+                        </select>
+                    </div>
+
+                    <!-- Barra de Progresso por Etapas / Nós Blindados -->
+                    <div class="nodes-progress-group">
+                        <div class="nodes-progress-label">
+                            <span id="topbar-nodes-progress">0 / 7 NÓS BLINDADOS</span>
+                        </div>
+                        <div class="progress-track-cyber">
+                            <div class="progress-bar-fill" id="topbar-nodes-bar"></div>
+                        </div>
+                    </div>
+
+                    <!-- Medidor Dinâmico de Segurança: X% -->
+                    <div class="security-gauge-group">
+                        <span class="gauge-icon" data-icon="shield"></span>
+                        <div class="gauge-meta">
+                            <div class="gauge-title-row">
+                                <span class="label">SEGURANÇA:</span>
+                                <span class="val" id="topbar-security-val">20%</span>
+                            </div>
+                            <div class="gauge-track">
+                                <div class="gauge-fill" id="topbar-security-gauge"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placar de Pontuação & Ações Rápidas -->
+                <div class="topbar-right-cluster">
+                    <div class="score-display-box">
+                        <span class="score-icon" data-icon="zap"></span>
+                        <span class="score-val" id="topbar-score-display">0 PTS</span>
+                    </div>
+
+                    <button class="quick-btn" id="btn-quick-sound" title="Silenciar / Ativar Som" data-icon="volume2">
+                    </button>
+                    <button class="quick-btn" id="btn-quick-fullscreen" title="Alternar Tela Cheia" data-icon="maximize">
+                    </button>
+                </div>
+            </header>
+
+            <!-- ==========================================
+                 3. SEÇÕES DE CONTEÚDO (SPA)
+                 ========================================== -->
+            <div id="content-container">
+
+                <!-- SEÇÃO 1: INÍCIO (HERO BANNER COM PLANTA ISOMÉTRICA) -->
+                <section id="view-home" class="view-section active">
+                    <div class="hero-banner-container">
+                        <div class="hero-glow-back"></div>
+                        <div class="hero-content-split">
+                            <div class="hero-text-col">
+                                <span class="hero-badge-tag">SIMULADOR EDUCACIONAL SESI/SENAI</span>
+                                <h1 class="hero-main-title">CYBER DEFENSE<br><span>Proteja sua Smart Home</span></h1>
+                                <p class="hero-subtitle">
+                                    Descubra vulnerabilidades, enfrente ameaças reais de IoT e proteja sua casa conectada contra botnets, invasões e vazamentos.
+                                </p>
+                                <div class="hero-cta-group">
+                                    <button class="cyber-btn cyber-btn-primary" id="btn-hero-play">
+                                        <span data-icon="play"></span> JOGAR AGORA
+                                    </button>
+                                    <button class="cyber-btn cyber-btn-secondary" id="btn-hero-howto">
+                                        <span data-icon="book"></span> COMO JOGAR
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Ilustração da Smart Home com Cúpula Holográfica e Etiquetas -->
+                            <div class="hero-visual-col">
+                                <div class="hero-holo-dome-wrapper">
+                                    <div class="hero-house-graphic">
+                                        <svg viewBox="0 0 300 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <!-- Telhado Isométrico -->
+                                            <polygon points="150,30 250,85 150,140 50,85" fill="rgba(0, 229, 255, 0.25)" stroke="#00e5ff" stroke-width="2"/>
+                                            <!-- Paredes da Casa -->
+                                            <polygon points="50,85 150,140 150,210 50,155" fill="rgba(14, 26, 50, 0.9)" stroke="#00e5ff" stroke-width="1.5"/>
+                                            <polygon points="150,140 250,85 250,155 150,210" fill="rgba(7, 13, 25, 0.95)" stroke="#00e5ff" stroke-width="1.5"/>
+                                            <!-- Porta de Entrada com Fechadura -->
+                                            <polygon points="90,135 120,152 120,185 90,168" fill="rgba(124, 77, 255, 0.4)" stroke="#7c4dff" stroke-width="1.5"/>
+                                            <!-- Cúpula de Escudo -->
+                                            <ellipse cx="150" cy="120" rx="140" ry="110" stroke="rgba(0, 229, 255, 0.6)" stroke-width="1.5" stroke-dasharray="5,5" fill="none"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- Etiquetas Flutuantes Interativas -->
+                                    <div class="hero-device-pill pill-camera" data-target-dev="camera"><span data-icon="camera"></span> Câmera IP</div>
+                                    <div class="hero-device-pill pill-router" data-target-dev="router"><span data-icon="wifi"></span> Roteador Wi-Fi</div>
+                                    <div class="hero-device-pill pill-lock" data-target-dev="smartlock"><span data-icon="lock"></span> Fechadura</div>
+                                    <div class="hero-device-pill pill-speaker" data-target-dev="speaker"><span data-icon="mic"></span> Smart Speaker</div>
+                                    <div class="hero-device-pill pill-thermostat" data-target-dev="thermostat"><span data-icon="thermometer"></span> Termostato</div>
+                                    <div class="hero-device-pill pill-doorsensor" data-target-dev="doorsensor"><span data-icon="door"></span> Sensor Porta</div>
+                                    <div class="hero-device-pill pill-bulb" data-target-dev="smartbulb"><span data-icon="bulb"></span> Lâmpadas Mesh</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cards de Destaque -->
+                    <div class="home-features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon" data-icon="radar"></div>
+                            <h3>3 Níveis Progressivos</h3>
+                            <p>Do básico de senhas de fábrica e portas abertas até ataques ativos em tempo real com Botnet Mirai e ransomware IoT.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon" data-icon="shield"></div>
+                            <h3>Fluxo de Ação em 3 Etapas</h3>
+                            <p>Identifique a Vulnerabilidade técnica, reconheça o Vetor de Ameaça e selecione a melhor Medida de Proteção defensiva.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon" data-icon="database"></div>
+                            <h3>Relatório Técnico de Auditoria</h3>
+                            <p>Receba um dossiê completo estilo Pentest/Defesa com classificação técnica, métricas e recomendações normativas (NIST/OWASP).</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 2: JOGAR (MAPA ISOMÉTRICO INTERATIVO & GAMEPLAY) -->
+                <section id="view-game" class="view-section">
+                    <!-- Barra de Filtros Rápidos por Cômodo -->
+                    <div class="map-filter-bar">
+                        <span class="filter-lbl">FILTRAR CÔMODOS:</span>
+                        <button class="filter-room-btn active" data-room="all">TODOS</button>
+                        <button class="filter-room-btn" data-room="living">SALA DE ESTAR</button>
+                        <button class="filter-room-btn" data-room="bedroom">QUARTO</button>
+                        <button class="filter-room-btn" data-room="kitchen">COZINHA</button>
+                        <button class="filter-room-btn" data-room="entrance">ENTRADA / FACHADA</button>
+                        <div class="map-actions-cluster">
+                            <button class="scan-radar-btn" id="btn-toggle-exploration" title="Alternar Modo Exploração com Agente">
+                                <span data-icon="gamepad"></span> MODO EXPLORAÇÃO (WASD)
+                            </button>
+                            <button class="scan-radar-btn" id="btn-scan-network" title="Disparar Varredura de Rede com Radar">
+                                <span data-icon="radar"></span> ESCANEAR REDE
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="gameplay-layout-grid">
+                        <!-- Mapa Isométrico Interativo com Cúpula Holográfica -->
+                        <div class="map-canvas-container" id="isometric-map-wrapper">
+                            <!-- Canvas 2D da Cúpula Holográfica de Proteção e Agente -->
+                            <canvas id="dome-canvas"></canvas>
+
+                            <!-- HUD de Controles de Exploração Livre -->
+                            <div class="exploration-hud-overlay" id="exploration-controls-hud" style="display: none;">
+                                <div class="hud-guide-badge">
+                                    <span class="hud-icon">🎮</span>
+                                    <span>MODO AGENTE: <strong>WASD / Setas</strong> para andar | <strong>Clique no chão</strong> para mover | <strong>[E]</strong> Inspecionar</span>
+                                </div>
+                                <div class="virtual-dpad">
+                                    <button class="dpad-btn dpad-up" id="btn-dpad-up">▲</button>
+                                    <div class="dpad-middle">
+                                        <button class="dpad-btn dpad-left" id="btn-dpad-left">◀</button>
+                                        <button class="dpad-btn dpad-center" id="btn-dpad-interact">E</button>
+                                        <button class="dpad-btn dpad-right" id="btn-dpad-right">▶</button>
+                                    </div>
+                                    <button class="dpad-btn dpad-down" id="btn-dpad-down">▼</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Painel Lateral SOC do Gameplay -->
+                        <aside class="game-soc-sidebar">
+                            <!-- Card de Radar de Ameaças -->
+                            <div class="soc-status-card">
+                                <h3><span data-icon="alertTriangle"></span> STATUS DO PERÍMETRO</h3>
+                                <div class="threat-radar-indicator">
+                                    <div class="threat-row">
+                                        <span>Exposição WAN</span>
+                                        <div class="threat-bar">
+                                            <div class="threat-fill threat-fill-critical"></div>
+                                        </div>
+                                    </div>
+                                    <div class="threat-row">
+                                        <span>Isolamento VLAN</span>
+                                        <div class="threat-bar">
+                                            <div class="threat-fill threat-fill-medium"></div>
+                                        </div>
+                                    </div>
+                                    <div class="threat-row">
+                                        <span>Criptografia TLS</span>
+                                        <div class="threat-bar">
+                                            <div class="threat-fill threat-fill-low"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feed de Logs SOC ao Vivo -->
+                            <div class="soc-live-feed-card">
+                                <div class="feed-header">
+                                    <span>SOC THREAT FEED // LIVE STREAM</span>
+                                    <span class="live-dot"></span>
+                                </div>
+                                <div class="soc-live-stream-box" id="soc-live-stream-log">
+                                    <div class="soc-feed-line">
+                                        <span class="time">[INIT]</span>
+                                        <span class="text">Simulador de Defesa Inicializado. Conectado ao Gateway IoT.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 3: COMO JOGAR -->
+                <section id="view-howto" class="view-section">
+                    <div class="page-header-box">
+                        <h2>COMO JOGAR O SIMULADOR</h2>
+                        <p>Domine os 3 pilares da cibersegurança em IoT para neutralizar ameaças e blindar a residência.</p>
+                    </div>
+
+                    <div class="howto-steps-grid">
+                        <div class="howto-card">
+                            <div class="card-step-num">01</div>
+                            <h3>Navegue e Inspecione</h3>
+                            <p>Observe a planta da casa. Dispositivos vulneráveis exibem um indicador de alerta e notificações estilo SOC. Clique em qualquer nó para abrir o console de inspeção.</p>
+                        </div>
+                        <div class="howto-card">
+                            <div class="card-step-num">02</div>
+                            <h3>Resolva as 3 Etapas</h3>
+                            <p>Para cada dispositivo, passe pelas 3 etapas obrigatórias:
+                                <br>1. <strong>Identificar Vulnerabilidade</strong>
+                                <br>2. <strong>Reconhecer Ameaça</strong>
+                                <br>3. <strong>Selecionar Medida de Proteção</strong>
+                            </p>
+                        </div>
+                        <div class="howto-card">
+                            <div class="card-step-num">03</div>
+                            <h3>Blinde a Cúpula</h3>
+                            <p>Cada acerto fortalece a Cúpula Holográfica e sobe o medidor de Segurança %. Ao proteger todos os 7 dispositivos, você recebe o Relatório Técnico de Auditoria.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SEÇÃO 4: PROGRESSO -->
+                <section id="view-progress" class="view-section">
+                    <div class="page-header-box">
+                        <h2>PAINEL DE PROGRESSO & AUDITORIA</h2>
+                        <p>Acompanhe suas estatísticas de defesa cibernética, taxa de precisão e histórico de intervenções.</p>
+                    </div>
+                    <div id="progress-dashboard-content"></div>
+                </section>
+
+                <!-- SEÇÃO 5: CONQUISTAS -->
+                <section id="view-achievements" class="view-section">
+                    <div class="page-header-box">
+                        <h2>CONQUISTAS E MEDALHAS</h2>
+                        <p>Desbloqueie insígnias de excelência em cibersegurança e mostre suas habilidades como especialista.</p>
+                    </div>
+                    <div class="achievements-grid" id="achievements-grid"></div>
+                </section>
+
+                <!-- SEÇÃO 6: CONTEÚDOS & GLOSSÁRIO TÉCNICO SESI/SENAI -->
+                <section id="view-knowledge" class="view-section">
+                    <div class="page-header-box">
+                        <h2>CONTEÚDOS EDUCATIVOS // IOT & CIBERSEGURANÇA</h2>
+                        <p>Guia de referência para o curso Técnico em Desenvolvimento de Sistemas (SESI/SENAI).</p>
+                    </div>
+
+                    <div class="kb-tabs-bar">
+                        <button class="kb-tab-btn active" data-target="kb-protocols-list">PROTOCOLOS IOT</button>
+                        <button class="kb-tab-btn" data-target="kb-threats-list">AMEAÇAS CIBERNÉTICAS</button>
+                        <button class="kb-tab-btn" data-target="kb-practices-list">BOAS PRÁTICAS & NORMAS</button>
+                    </div>
+
+                    <!-- Abas de Conteúdo -->
+                    <div class="kb-tab-pane active" id="kb-protocols-list"></div>
+                    <div class="kb-tab-pane" id="kb-threats-list"></div>
+                    <div class="kb-tab-pane" id="kb-practices-list"></div>
+                </section>
+
+                <!-- SEÇÃO 7: CONFIGURAÇÕES -->
+                <section id="view-settings" class="view-section">
+                    <div class="page-header-box">
+                        <h2>CONFIGURAÇÕES DO SIMULADOR</h2>
+                        <p>Ajuste os parâmetros de áudio sintetizado, efeitos visuais e gerenciamento de dados salvos.</p>
+                    </div>
+
+                    <div class="settings-group">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Efeitos Sonoros (Web Audio API)</h4>
+                                <p>Sons sintetizados em tempo real para cliques, alertas, acertos e glitches.</p>
+                            </div>
+                            <label class="cyber-switch">
+                                <input type="checkbox" id="setting-sound-toggle" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Volume Master</h4>
+                                <p>Controle de ganho principal do sintetizador de áudio.</p>
+                            </div>
+                            <input type="range" class="cyber-slider" id="setting-volume-slider" min="0" max="1" step="0.05" value="0.5">
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Ambiência Cyber (Drone Lo-Fi Procedural)</h4>
+                                <p>Sintetizador procedural de fundo gerando textura sci-fi suave e imersiva.</p>
+                            </div>
+                            <label class="cyber-switch">
+                                <input type="checkbox" id="setting-ambient-toggle">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Efeito CRT / Scanlines</h4>
+                                <p>Adiciona linhas de varredura retrô-futuristas na interface.</p>
+                            </div>
+                            <label class="cyber-switch">
+                                <input type="checkbox" id="setting-scanlines-toggle">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <h4>Resetar Todo o Progresso</h4>
+                                <p>Limpa pontuações salvas no LocalStorage e reinicia os 3 níveis.</p>
+                            </div>
+                            <button class="cyber-btn cyber-btn-danger" id="btn-reset-progress">
+                                <span data-icon="rotate"></span> RESETAR DADOS
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         4. MODAL INSPETOR DE DISPOSITIVOS (3 ETAPAS)
+         ========================================== -->
+    <div id="device-inspector-modal" class="cyber-modal-overlay">
+        <div class="inspector-modal-box">
+            <button class="modal-close-btn" title="Fechar Janela">✕</button>
+            <div class="modal-body-container"></div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         5. MODAL RELATÓRIO FINAL DE AUDITORIA
+         ========================================== -->
+    <div id="audit-report-modal" class="cyber-modal-overlay">
+        <div class="report-modal-box">
+            <button class="report-close-btn" title="Fechar Janela">✕</button>
+            <div class="report-modal-content"></div>
+        </div>
+    </div>
+
+    <!-- Scripts da Aplicação Modular -->
+    <script src="js/icons.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/gameState.js"></script>
+    <script src="js/explorationMode.js"></script>
+    <script src="js/isometricMap.js"></script>
+    <script src="js/modalInspector.js"></script>
+    <script src="js/report.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

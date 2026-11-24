@@ -215,6 +215,9 @@
                         <button class="filter-room-btn" data-room="kitchen">COZINHA</button>
                         <button class="filter-room-btn" data-room="entrance">ENTRADA / FACHADA</button>
                         <div class="map-actions-cluster">
+                            <button class="scan-radar-btn" id="btn-toggle-exploration" title="Alternar Modo Exploração com Agente">
+                                <span data-icon="gamepad"></span> MODO EXPLORAÇÃO (WASD)
+                            </button>
                             <button class="scan-radar-btn" id="btn-scan-network" title="Disparar Varredura de Rede com Radar">
                                 <span data-icon="radar"></span> ESCANEAR REDE
                             </button>
@@ -224,8 +227,25 @@
                     <div class="gameplay-layout-grid">
                         <!-- Mapa Isométrico Interativo com Cúpula Holográfica -->
                         <div class="map-canvas-container" id="isometric-map-wrapper">
-                            <!-- Canvas 2D da Cúpula Holográfica de Proteção -->
+                            <!-- Canvas 2D da Cúpula Holográfica de Proteção e Agente -->
                             <canvas id="dome-canvas"></canvas>
+
+                            <!-- HUD de Controles de Exploração Livre -->
+                            <div class="exploration-hud-overlay" id="exploration-controls-hud" style="display: none;">
+                                <div class="hud-guide-badge">
+                                    <span class="hud-icon">🎮</span>
+                                    <span>MODO AGENTE: <strong>WASD / Setas</strong> para andar | <strong>Clique no chão</strong> para mover | <strong>[E]</strong> Inspecionar</span>
+                                </div>
+                                <div class="virtual-dpad">
+                                    <button class="dpad-btn dpad-up" id="btn-dpad-up">▲</button>
+                                    <div class="dpad-middle">
+                                        <button class="dpad-btn dpad-left" id="btn-dpad-left">◀</button>
+                                        <button class="dpad-btn dpad-center" id="btn-dpad-interact">E</button>
+                                        <button class="dpad-btn dpad-right" id="btn-dpad-right">▶</button>
+                                    </div>
+                                    <button class="dpad-btn dpad-down" id="btn-dpad-down">▼</button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Painel Lateral SOC do Gameplay -->
@@ -429,6 +449,7 @@
     <script src="js/audio.js"></script>
     <script src="js/data.js"></script>
     <script src="js/gameState.js"></script>
+    <script src="js/explorationMode.js"></script>
     <script src="js/isometricMap.js"></script>
     <script src="js/modalInspector.js"></script>
     <script src="js/report.js"></script>

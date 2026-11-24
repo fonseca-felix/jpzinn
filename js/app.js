@@ -172,6 +172,60 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
+
+            // Botão de Alternar Modo Exploração Livre (Agente WASD)
+            const btnExploration = document.getElementById('btn-toggle-exploration');
+            if (btnExploration) {
+                btnExploration.addEventListener('click', () => {
+                    window.cyberAudio.playClick();
+                    if (window.smartHomeMap) {
+                        const active = window.smartHomeMap.toggleExplorationMode();
+                        btnExploration.classList.toggle('active', active);
+                        btnExploration.innerHTML = active 
+                            ? `<span data-icon="home"></span> VISÃO TÁTICA (SAIR)`
+                            : `<span data-icon="gamepad"></span> MODO EXPLORAÇÃO (WASD)`;
+                        if (window.CyberApp) {
+                            window.CyberApp.showToast(active ? "Modo Agente Ativado! Use WASD ou clique para andar." : "Visão Tática Geral Restaurada", "info");
+                        }
+                    }
+                });
+            }
+
+            // D-Pad Virtual Tátil / Mouse
+            const setupDpad = (btnId, keyName) => {
+                const btn = document.getElementById(btnId);
+                if (btn) {
+                    const startMove = (e) => {
+                        e.preventDefault();
+                        if (window.smartHomeMap && window.smartHomeMap.agent) {
+                            window.smartHomeMap.agent.keys[keyName] = true;
+                        }
+                    };
+                    const stopMove = (e) => {
+                        e.preventDefault();
+                        if (window.smartHomeMap && window.smartHomeMap.agent) {
+                            window.smartHomeMap.agent.keys[keyName] = false;
+                        }
+                    };
+                    btn.addEventListener('pointerdown', startMove);
+                    btn.addEventListener('pointerup', stopMove);
+                    btn.addEventListener('pointerleave', stopMove);
+                }
+            };
+
+            setupDpad('btn-dpad-up', 'up');
+            setupDpad('btn-dpad-down', 'down');
+            setupDpad('btn-dpad-left', 'left');
+            setupDpad('btn-dpad-right', 'right');
+
+            const btnInteract = document.getElementById('btn-dpad-interact');
+            if (btnInteract) {
+                btnInteract.addEventListener('click', () => {
+                    if (window.smartHomeMap && window.smartHomeMap.agent) {
+                        window.smartHomeMap.agent.interactWithNearbyDevice();
+                    }
+                });
+            }
         },
 
         bindKnowledgeTabs() {
