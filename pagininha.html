@@ -215,11 +215,14 @@
                         <button class="filter-room-btn" data-room="kitchen">COZINHA</button>
                         <button class="filter-room-btn" data-room="entrance">ENTRADA / FACHADA</button>
                         <div class="map-actions-cluster">
-                            <button class="scan-radar-btn" id="btn-toggle-exploration" title="Alternar Modo Exploração com Agente">
-                                <span data-icon="gamepad"></span> MODO EXPLORAÇÃO (WASD)
+                            <button class="scan-radar-btn" id="btn-camera-mode" title="Alternar Ângulo de Câmera 3D">
+                                <span data-icon="video"></span> CÂMERA: ÓRBITA 3D
                             </button>
-                            <button class="scan-radar-btn" id="btn-scan-network" title="Disparar Varredura de Rede com Radar">
-                                <span data-icon="radar"></span> ESCANEAR REDE
+                            <button class="scan-radar-btn" id="btn-palette-3d" title="Alternar Paleta de Cores Neon">
+                                <span data-icon="sliders"></span> PALETA NEON
+                            </button>
+                            <button class="scan-radar-btn" id="btn-scan-network" title="Disparar Varredura com Radar e Pulso EMP">
+                                <span data-icon="radar"></span> PULSO RADAR
                             </button>
                         </div>
                     </div>
@@ -227,14 +230,17 @@
                     <div class="gameplay-layout-grid">
                         <!-- Mapa Isométrico Interativo com Cúpula Holográfica -->
                         <div class="map-canvas-container" id="isometric-map-wrapper">
-                            <!-- Canvas 2D da Cúpula Holográfica de Proteção e Agente -->
+                            <!-- Canvas 2D / WebGL Fallback -->
                             <canvas id="dome-canvas"></canvas>
 
+                            <!-- Banner Flutuante de Interação com Dispositivo [E] -->
+                            <div id="agent-interaction-prompt-3d" class="interaction-prompt-3d" style="display: none;"></div>
+
                             <!-- HUD de Controles de Exploração Livre -->
-                            <div class="exploration-hud-overlay" id="exploration-controls-hud" style="display: none;">
+                            <div class="exploration-hud-overlay" id="exploration-controls-hud">
                                 <div class="hud-guide-badge">
-                                    <span class="hud-icon">🎮</span>
-                                    <span>MODO AGENTE: <strong>WASD / Setas</strong> para andar | <strong>Clique no chão</strong> para mover | <strong>[E]</strong> Inspecionar</span>
+                                    <span class="hud-icon"><span data-icon="gamepad"></span></span>
+                                    <span>EXPLORAÇÃO 3D: <strong>WASD / Setas</strong> para andar | <strong>Clique no chão</strong> | <strong>Arrastar mouse</strong> para girar 3D | <strong>[E]</strong> Inspecionar</span>
                                 </div>
                                 <div class="virtual-dpad">
                                     <button class="dpad-btn dpad-up" id="btn-dpad-up">▲</button>
@@ -449,6 +455,9 @@
     <script src="js/audio.js"></script>
     <script src="js/data.js"></script>
     <script src="js/gameState.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/smartHome3D.js"></script>
     <script src="js/explorationMode.js"></script>
     <script src="js/isometricMap.js"></script>
     <script src="js/modalInspector.js"></script>

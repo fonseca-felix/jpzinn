@@ -8,6 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicialização dos Módulos Principais
     window.modalInspector = new DeviceModalInspector('device-inspector-modal');
     window.auditReport = new AuditReportManager('audit-report-modal');
+    
+    // Inicialização do Motor 3D WebGL (Three.js) da Smart Home
+    if (window.THREE && window.SmartHome3DEngine) {
+        window.smartHome3D = new SmartHome3DEngine('isometric-map-wrapper');
+    }
     window.smartHomeMap = new IsometricSmartHomeMap('isometric-map-wrapper', 'dome-canvas');
 
     // Estado da Aplicação UI
@@ -19,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.bindTopbarActions();
             this.bindHomeActions();
             this.bindRoomFilters();
+            this.bind3DControls();
             this.bindKnowledgeTabs();
             this.bindSettings();
             this.bindGameStateUpdates();
@@ -52,9 +58,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 sec.classList.toggle('active', sec.id === `view-${viewId}`);
             });
 
-            // Se for para o Gameplay, re-renderiza o mapa para garantir medidas corretas
+            // Se for para o Gameplay, re-renderiza e atualiza o motor 3D
             if (viewId === 'game') {
                 setTimeout(() => {
+                    if (window.smartHome3D) {
+                        window.smartHome3D.onResize();
+                        window.smartHome3D.refreshDevices();
+                    }
                     if (window.smartHomeMap) {
                         window.smartHomeMap.initCanvas();
                         window.smartHomeMap.renderMap();
@@ -157,84 +167,72 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelectorAll('.filter-room-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     const room = btn.getAttribute('data-room');
+                    if (window.smartHome3D) {
+                        window.smartHome3D.setFilter(room);
+                    }
                     if (window.smartHomeMap) {
                         window.smartHomeMap.setFilter(room);
                     }
                 });
             });
+        },
 
-            // Botão de Varredura de Rede
+        bind3DControls() {
+            // Câmera 3D (Alternar Órbita / Seguir / Planta Baixa)
+            const btnCam = document.getElementById('btn-camera-mode');
+            if (btnCam) {
+                btnCam.addEventListener('click', () => {
+                    window.cyberAudio.playClick();
+                    if (window.smartHome3D) {
+                        const mode = window.smartHome3D.cycleCameraMode();
+                        const labels = {
+                            'orbit': 'CÂMERA: ÓRBITA 3D',
+                            'follow': 'CÂMERA: SEGUIR BONECO',
+                            'top': 'CÂMERA: PLANTA 3D'
+                        };
+                        btnCam.innerHTML = `<span data-icon="video"></span> ${labels[mode] || 'CÂMERA 3D'}`;
+                        this.hydrateIcons();
+                        this.showToast(`Modo de Câmera: ${labels[mode]}`, 'info');
+                    }
+                });
+            }
+
+            // Paleta Neon (Cyber Ciano, Matrix Verde, Stealth Vermelho)
+            const btnPalette = document.getElementById('btn-palette-3d');
+            if (btnPalette) {
+                btnPalette.addEventListener('click', () => {
+                    window.cyberAudio.playClick();
+                    if (window.smartHome3D) {
+                        const pal = window.smartHome3D.togglePalette();
+                        const palNames = {
+                            'cyber': 'CYBERPUNK (CIANO)',
+                            'matrix': 'MATRIX (VERDE)',
+                            'stealth': 'STEALTH (VERMELHO)'
+                        };
+                        this.showToast(`Paleta Neon: ${palNames[pal] || pal.toUpperCase()}`, 'success');
+                    }
+                });
+            }
+
+            // Pulso EMP de Varredura
             const btnScan = document.getElementById('btn-scan-network');
             if (btnScan) {
                 btnScan.addEventListener('click', () => {
+                    window.cyberAudio.playShield();
+                    if (window.smartHome3D) {
+                        window.smartHome3D.triggerScanWave();
+                    }
                     if (window.smartHomeMap) {
                         window.smartHomeMap.triggerNetworkScan();
                     }
+                    this.showToast('Varredura e Pulso EMP Disparados no Perímetro IoT', 'info');
                 });
             }
 
-            // Botão de Alternar Modo Exploração Livre (Agente WASD)
-            const btnExploration = document.getElementById('btn-toggle-exploration');
-            if (btnExploration) {
-                // Inicia já ativado no modo exploração
-                btnExploration.classList.add('active');
-                btnExploration.innerHTML = `<span data-icon="home"></span> VISÃO TÁTICA (SAIR)`;
-
-                btnExploration.addEventListener('click', () => {
-                    window.cyberAudio.playClick();
-                    if (window.smartHomeMap) {
-                        const active = window.smartHomeMap.toggleExplorationMode();
-                        btnExploration.classList.toggle('active', active);
-                        btnExploration.innerHTML = active 
-                            ? `<span data-icon="home"></span> VISÃO TÁTICA (SAIR)`
-                            : `<span data-icon="gamepad"></span> MODO EXPLORAÇÃO (WASD)`;
-                        if (window.CyberApp) {
-                            window.CyberApp.showToast(active ? "Modo Agente Ativado! Use WASD ou clique para andar." : "Visão Tática Geral Restaurada", "info");
-                        }
-                    }
-                });
-            }
-
-            // Exibe o HUD de exploração por padrão
+            // Exibe HUD de Exploração
             const hud = document.getElementById('exploration-controls-hud');
             if (hud) {
                 hud.style.display = 'flex';
-            }
-
-            // D-Pad Virtual Tátil / Mouse
-            const setupDpad = (btnId, keyName) => {
-                const btn = document.getElementById(btnId);
-                if (btn) {
-                    const startMove = (e) => {
-                        e.preventDefault();
-                        if (window.explorationAgent) {
-                            window.explorationAgent.keys[keyName] = true;
-                        }
-                    };
-                    const stopMove = (e) => {
-                        e.preventDefault();
-                        if (window.explorationAgent) {
-                            window.explorationAgent.keys[keyName] = false;
-                        }
-                    };
-                    btn.addEventListener('pointerdown', startMove);
-                    btn.addEventListener('pointerup', stopMove);
-                    btn.addEventListener('pointerleave', stopMove);
-                }
-            };
-
-            setupDpad('btn-dpad-up', 'up');
-            setupDpad('btn-dpad-down', 'down');
-            setupDpad('btn-dpad-left', 'left');
-            setupDpad('btn-dpad-right', 'right');
-
-            const btnInteract = document.getElementById('btn-dpad-interact');
-            if (btnInteract) {
-                btnInteract.addEventListener('click', () => {
-                    if (window.explorationAgent) {
-                        window.explorationAgent.interactWithNearbyDevice();
-                    }
-                });
             }
         },
 
@@ -306,6 +304,10 @@ document.addEventListener('DOMContentLoaded', () => {
             window.gameState.subscribe((event, data) => {
                 this.updateTopbar();
 
+                if (window.smartHome3D) {
+                    window.smartHome3D.updateSecurityDome(window.gameState.securityPct);
+                }
+
                 if (event === 'achievement_unlocked') {
                     this.showAchievementBanner(data);
                 } else if (event === 'level_completed') {
@@ -317,7 +319,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             data.history
                         );
                     }, 600);
+                } else if (event === 'level_started') {
+                    if (window.smartHome3D) {
+                        window.smartHome3D.refreshDevices();
+                    }
                 } else if (event === 'device_secured') {
+                    if (window.smartHome3D) {
+                        window.smartHome3D.updateSecurityDome(window.gameState.securityPct);
+                    }
                     this.showToast(`Nó [${data.deviceId}] blindado com sucesso!`, 'success');
                 } else if (event === 'step_error') {
                     this.showToast('Ação incorreta! Perda de integridade detectada.', 'danger');

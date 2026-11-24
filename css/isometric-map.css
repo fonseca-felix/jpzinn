@@ -433,3 +433,73 @@
     color: #070d19;
     box-shadow: 0 0 12px var(--cyber-green);
 }
+
+/* ==========================================
+   ELEMENTOS DO AMBIENTE 3D WEBGL (THREE.JS)
+   ========================================== */
+#webgl-smart-home-canvas {
+    outline: none;
+    cursor: grab;
+    z-index: 2;
+}
+
+#webgl-smart-home-canvas:active {
+    cursor: grabbing;
+}
+
+/* Prompt Flutuante de Interação do Agente [E] */
+.interaction-prompt-3d {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(4, 8, 16, 0.94);
+    border: 2px solid var(--cyber-cyan);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.5), inset 0 0 15px rgba(0, 229, 255, 0.2);
+    border-radius: 30px;
+    padding: 12px 28px;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 1.5px;
+    z-index: 20;
+    pointer-events: auto;
+    cursor: pointer;
+    animation: pulseBorder3D 1.8s infinite alternate;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.interaction-prompt-3d:hover {
+    background: rgba(0, 229, 255, 0.15);
+    border-color: var(--cyber-green);
+    box-shadow: 0 0 35px var(--cyber-green);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.interaction-prompt-3d strong {
+    color: #070d19;
+    background: var(--cyber-cyan);
+    padding: 3px 9px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px var(--cyber-cyan);
+}
+
+.interaction-prompt-3d span {
+    color: #ffd600;
+    text-shadow: 0 0 8px rgba(255, 214, 0, 0.6);
+}
+
+@keyframes pulseBorder3D {
+    0% {
+        border-color: var(--cyber-cyan);
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+    }
+    100% {
+        border-color: #00e676;
+        box-shadow: 0 0 30px rgba(0, 230, 118, 0.6);
+    }
+}
