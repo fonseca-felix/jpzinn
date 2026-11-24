@@ -18,6 +18,7 @@ class IsometricSmartHomeMap {
 
         this.initCanvas();
         this.initParticles();
+        this.agent = new SmartHomeExplorationAgent(canvasId);
         this.startDomeAnimation();
         this.bindEvents();
     }
@@ -154,6 +155,26 @@ class IsometricSmartHomeMap {
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fill();
         });
+
+        // Atualiza e Renderiza o Agente Cyber no Modo Exploração Livre (60 FPS)
+        if (this.agent && this.agent.active) {
+            this.agent.update();
+            this.agent.draw(ctx);
+        }
+    }
+
+    toggleExplorationMode() {
+        if (!this.agent) return false;
+        const isActive = this.agent.toggleMode();
+        if (this.canvas) {
+            this.canvas.style.pointerEvents = isActive ? 'auto' : 'none';
+            this.canvas.style.cursor = isActive ? 'crosshair' : 'default';
+        }
+        const hud = document.getElementById('exploration-controls-hud');
+        if (hud) {
+            hud.style.display = isActive ? 'flex' : 'none';
+        }
+        return isActive;
     }
 
     renderMap() {
