@@ -18,7 +18,8 @@ class IsometricSmartHomeMap {
 
         this.initCanvas();
         this.initParticles();
-        this.agent = new SmartHomeExplorationAgent(canvasId);
+        this.agent = window.explorationAgent;
+        this.renderMap();
         this.startDomeAnimation();
         this.bindEvents();
     }
@@ -155,12 +156,6 @@ class IsometricSmartHomeMap {
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fill();
         });
-
-        // Atualiza e Renderiza o Agente Cyber no Modo Exploração Livre (60 FPS)
-        if (this.agent && this.agent.active) {
-            this.agent.update();
-            this.agent.draw(ctx);
-        }
     }
 
     toggleExplorationMode() {

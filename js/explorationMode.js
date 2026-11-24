@@ -251,6 +251,10 @@ class SmartHomeExplorationAgent {
             }
         }
     }
+
+    draw(ctx) {
+        this.render();
+    }
 }
 
 // Instância global única
