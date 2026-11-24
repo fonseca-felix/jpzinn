@@ -176,6 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Botão de Alternar Modo Exploração Livre (Agente WASD)
             const btnExploration = document.getElementById('btn-toggle-exploration');
             if (btnExploration) {
+                // Inicia já ativado no modo exploração
+                btnExploration.classList.add('active');
+                btnExploration.innerHTML = `<span data-icon="home"></span> VISÃO TÁTICA (SAIR)`;
+
                 btnExploration.addEventListener('click', () => {
                     window.cyberAudio.playClick();
                     if (window.smartHomeMap) {
@@ -191,20 +195,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
+            // Exibe o HUD de exploração por padrão
+            const hud = document.getElementById('exploration-controls-hud');
+            if (hud) {
+                hud.style.display = 'flex';
+            }
+
             // D-Pad Virtual Tátil / Mouse
             const setupDpad = (btnId, keyName) => {
                 const btn = document.getElementById(btnId);
                 if (btn) {
                     const startMove = (e) => {
                         e.preventDefault();
-                        if (window.smartHomeMap && window.smartHomeMap.agent) {
-                            window.smartHomeMap.agent.keys[keyName] = true;
+                        if (window.explorationAgent) {
+                            window.explorationAgent.keys[keyName] = true;
                         }
                     };
                     const stopMove = (e) => {
                         e.preventDefault();
-                        if (window.smartHomeMap && window.smartHomeMap.agent) {
-                            window.smartHomeMap.agent.keys[keyName] = false;
+                        if (window.explorationAgent) {
+                            window.explorationAgent.keys[keyName] = false;
                         }
                     };
                     btn.addEventListener('pointerdown', startMove);
@@ -221,8 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const btnInteract = document.getElementById('btn-dpad-interact');
             if (btnInteract) {
                 btnInteract.addEventListener('click', () => {
-                    if (window.smartHomeMap && window.smartHomeMap.agent) {
-                        window.smartHomeMap.agent.interactWithNearbyDevice();
+                    if (window.explorationAgent) {
+                        window.explorationAgent.interactWithNearbyDevice();
                     }
                 });
             }

@@ -164,16 +164,8 @@ class IsometricSmartHomeMap {
     }
 
     toggleExplorationMode() {
-        if (!this.agent) return false;
-        const isActive = this.agent.toggleMode();
-        if (this.canvas) {
-            this.canvas.style.pointerEvents = isActive ? 'auto' : 'none';
-            this.canvas.style.cursor = isActive ? 'crosshair' : 'default';
-        }
-        const hud = document.getElementById('exploration-controls-hud');
-        if (hud) {
-            hud.style.display = isActive ? 'flex' : 'none';
-        }
+        if (!window.explorationAgent) return false;
+        const isActive = window.explorationAgent.toggleMode();
         return isActive;
     }
 
@@ -201,6 +193,11 @@ class IsometricSmartHomeMap {
                 <linearGradient id="floorEntrance" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#0f2038" stop-opacity="0.9"/>
                     <stop offset="100%" stop-color="#060c18" stop-opacity="0.95"/>
+                </linearGradient>
+                <linearGradient id="agentLightGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.8"/>
+                    <stop offset="60%" stop-color="#00e5ff" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
                 </linearGradient>
             </defs>
 
@@ -254,6 +251,49 @@ class IsometricSmartHomeMap {
             <!-- NÓS DE DISPOSITIVOS INTELIGENTES -->
             <g class="devices-layer">
                 ${devices.map(device => this.renderDeviceNode(device, fixedDevices.includes(device.id))).join('')}
+            </g>
+
+            <!-- BONECO AGENTE DE CIBERSEGURANÇA (EXPLORAÇÃO LIVRE DA SMART HOME) -->
+            <g id="player-agent-group" class="player-agent-svg" transform="translate(500, 260)" style="cursor: pointer;">
+                <!-- Feixe da Lanterna Cônica de Varredura -->
+                <path id="agent-flashlight" d="M0,0 L90,-35 L120,-12 L120,12 L90,35 Z" fill="url(#agentLightGrad)" opacity="0.65"/>
+                
+                <!-- Sombra no chão -->
+                <ellipse cx="0" cy="18" rx="20" ry="7" fill="rgba(0,0,0,0.65)"/>
+                
+                <!-- Anel holográfico de pulso aos pés -->
+                <ellipse cx="0" cy="18" rx="26" ry="10" fill="none" stroke="#00e5ff" stroke-width="1.8" stroke-dasharray="4,4"/>
+
+                <!-- Pernas com animação de caminhada -->
+                <g id="agent-legs">
+                    <rect id="leg-left" x="-9" y="8" width="6" height="15" rx="3" fill="#0b172a" stroke="#00e5ff" stroke-width="1.2"/>
+                    <rect id="leg-right" x="3" y="8" width="6" height="15" rx="3" fill="#0b172a" stroke="#00e5ff" stroke-width="1.2"/>
+                </g>
+
+                <!-- Tronco / Colete Tático com LED central -->
+                <rect x="-14" y="-12" width="28" height="22" rx="5" fill="#0d1b33" stroke="#00e5ff" stroke-width="1.8"/>
+                <rect x="-8" y="-7" width="16" height="12" rx="2" fill="rgba(0,229,255,0.25)" stroke="#00e5ff" stroke-width="1"/>
+                <circle cx="0" cy="-1" r="3" fill="#00e676"/>
+
+                <!-- Braços táticos -->
+                <rect x="-18" y="-10" width="5" height="16" rx="2" fill="#070d19" stroke="#00e5ff" stroke-width="1"/>
+                <rect x="13" y="-10" width="5" height="16" rx="2" fill="#070d19" stroke="#00e5ff" stroke-width="1"/>
+
+                <!-- Cabeça e Capacete com Visor Cyber Ciano Reluzente -->
+                <circle cx="0" cy="-22" r="12" fill="#070d19" stroke="#00e5ff" stroke-width="1.8"/>
+                <rect x="-8" y="-26" width="16" height="8" rx="3" fill="#00e5ff"/>
+
+                <!-- HUD Flutuante do Agente (Etiqueta de Cômodo) -->
+                <g id="agent-hud-group" transform="translate(0, -44)">
+                    <rect id="agent-room-badge-bg" x="-65" y="-12" width="130" height="22" rx="4" fill="rgba(7, 13, 25, 0.95)" stroke="#00e5ff" stroke-width="1.2"/>
+                    <text id="agent-room-text" x="0" y="3" text-anchor="middle" fill="#00e5ff" font-size="10" font-family="Orbitron, sans-serif" font-weight="bold">SALA DE ESTAR</text>
+                </g>
+
+                <!-- Balão de Ação Interativo [E] INSPECIONAR DISPOSITIVO -->
+                <g id="agent-interaction-prompt" transform="translate(0, 42)" style="display: none;">
+                    <rect id="agent-prompt-bg" x="-105" y="-13" width="210" height="26" rx="5" fill="rgba(255, 59, 92, 0.95)" stroke="#fff" stroke-width="1.2"/>
+                    <text id="agent-prompt-text" x="0" y="4" text-anchor="middle" fill="#fff" font-size="10.5" font-family="Orbitron, sans-serif" font-weight="bold">[E] INSPECIONAR DISPOSITIVO</text>
+                </g>
             </g>
         </svg>
         `;
@@ -365,6 +405,17 @@ class IsometricSmartHomeMap {
                 }
             });
         });
+
+        // Clique no balão de interação flutuante do boneco
+        const promptGroup = this.container.querySelector('#agent-interaction-prompt');
+        if (promptGroup) {
+            promptGroup.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (window.explorationAgent) {
+                    window.explorationAgent.interactWithNearbyDevice();
+                }
+            });
+        }
     }
 
     setFilter(roomName) {
