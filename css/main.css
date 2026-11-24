@@ -1,0 +1,339 @@
+/**
+ * Cyber Defense: Proteja sua Smart Home
+ * Estilos Principais (main.css)
+ * SESI/SENAI - Técnico em Desenvolvimento de Sistemas
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap');
+
+:root {
+    /* Paleta Cyberpunk & Dark Mode */
+    --bg-deep: #070d19;
+    --bg-darker: #040810;
+    --bg-surface: rgba(14, 26, 50, 0.65);
+    --bg-surface-elevated: rgba(20, 36, 68, 0.85);
+    --border-glass: rgba(0, 229, 255, 0.22);
+    --border-glass-hover: rgba(0, 229, 255, 0.6);
+
+    /* Cores Neons e Alertas */
+    --cyber-cyan: #00e5ff;
+    --cyber-cyan-glow: rgba(0, 229, 255, 0.4);
+    --cyber-green: #00e676;
+    --cyber-green-glow: rgba(0, 230, 118, 0.4);
+    --cyber-red: #ff3b5c;
+    --cyber-red-glow: rgba(255, 59, 92, 0.45);
+    --cyber-purple: #7c4dff;
+    --cyber-purple-glow: rgba(124, 77, 255, 0.35);
+    --cyber-amber: #ffab00;
+
+    /* Tipografia e Cores de Texto */
+    --text-primary: #f0f6fc;
+    --text-secondary: #8b9bb4;
+    --text-muted: #57657a;
+    --font-heading: 'Orbitron', 'Rajdhani', sans-serif;
+    --font-ui: 'Rajdhani', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+
+    /* Dimensões de Layout */
+    --sidebar-width: 260px;
+    --topbar-height: 72px;
+}
+
+/* Reset Global & Caixa */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar Personalizada Cyber */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 255, 0.3);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--cyber-cyan);
+    box-shadow: 0 0 10px var(--cyber-cyan-glow);
+}
+
+/* Efeito Opcional de Scanlines CRT */
+.scanlines-enabled::after {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.04), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.04));
+    z-index: 9999;
+    background-size: 100% 3px, 6px 100%;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* Efeito Glitch de Intrusão */
+@keyframes screenGlitchAnim {
+    0% { transform: translate(0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-3px, 3px); filter: hue-rotate(90deg) brightness(1.3); }
+    40% { transform: translate(-3px, -3px); filter: hue-rotate(180deg); }
+    60% { transform: translate(3px, 3px); filter: hue-rotate(270deg); }
+    80% { transform: translate(3px, -3px); filter: hue-rotate(360deg); }
+    100% { transform: translate(0); filter: none; }
+}
+
+.intrusion-glitch-active {
+    animation: screenGlitchAnim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+/* Estrutura Principal da Aplicação */
+#app-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100vw;
+    background: radial-gradient(circle at 50% 20%, #0d1b33 0%, var(--bg-deep) 65%);
+}
+
+/* Área de Conteúdo Principal */
+#main-viewport {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+#content-container {
+    padding-top: var(--topbar-height);
+    flex: 1;
+    position: relative;
+    padding-bottom: 40px;
+}
+
+/* Alternância de Telas (SPA) */
+.view-section {
+    display: none;
+    padding: 30px 40px;
+    animation: fadeInView 0.35s ease-out forwards;
+}
+
+.view-section.active {
+    display: block;
+}
+
+@keyframes fadeInView {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Utilitários Tipográficos */
+.font-mono {
+    font-family: var(--font-mono) !important;
+}
+
+.text-cyan { color: var(--cyber-cyan) !important; }
+.text-green { color: var(--cyber-green) !important; }
+.text-red { color: var(--cyber-red) !important; }
+.text-purple { color: var(--cyber-purple) !important; }
+.text-muted { color: var(--text-muted) !important; }
+
+/* Botões Cyber Reutilizáveis */
+.cyber-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    outline: none;
+}
+
+.cyber-btn-primary {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(0, 229, 255, 0.05));
+    border: 1.5px solid var(--cyber-cyan);
+    color: var(--cyber-cyan);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.25);
+}
+
+.cyber-btn-primary:hover {
+    background: var(--cyber-cyan);
+    color: #070d19;
+    box-shadow: 0 0 25px var(--cyber-cyan-glow);
+    transform: translateY(-2px);
+}
+
+.cyber-btn-secondary {
+    background: rgba(14, 26, 50, 0.8);
+    border: 1.5px solid var(--border-glass);
+    color: var(--text-primary);
+}
+
+.cyber-btn-secondary:hover {
+    border-color: var(--cyber-cyan);
+    color: var(--cyber-cyan);
+    transform: translateY(-2px);
+}
+
+.cyber-btn-success {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.2), rgba(0, 230, 118, 0.05));
+    border: 1.5px solid var(--cyber-green);
+    color: var(--cyber-green);
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
+}
+
+.cyber-btn-success:hover {
+    background: var(--cyber-green);
+    color: #070d19;
+    box-shadow: 0 0 25px var(--cyber-green-glow);
+    transform: translateY(-2px);
+}
+
+.cyber-btn-danger {
+    background: linear-gradient(135deg, rgba(255, 59, 92, 0.2), rgba(255, 59, 92, 0.05));
+    border: 1.5px solid var(--cyber-red);
+    color: var(--cyber-red);
+    box-shadow: 0 0 15px rgba(255, 59, 92, 0.25);
+}
+
+.cyber-btn-danger:hover {
+    background: var(--cyber-red);
+    color: #fff;
+    box-shadow: 0 0 25px var(--cyber-red-glow);
+    transform: translateY(-2px);
+}
+
+.cyber-btn-ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-secondary);
+}
+
+.cyber-btn-ghost:hover {
+    border-color: #fff;
+    color: #fff;
+}
+
+/* Toasts de Notificação Cyber */
+.cyber-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 14px 22px;
+    background: rgba(7, 13, 25, 0.95);
+    backdrop-filter: blur(12px);
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    z-index: 10000;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+.cyber-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-info {
+    border-left: 4px solid var(--cyber-cyan);
+    color: var(--cyber-cyan);
+}
+.toast-success {
+    border-left: 4px solid var(--cyber-green);
+    color: var(--cyber-green);
+}
+.toast-danger {
+    border-left: 4px solid var(--cyber-red);
+    color: var(--cyber-red);
+}
+.toast-warning {
+    border-left: 4px solid var(--cyber-amber);
+    color: var(--cyber-amber);
+}
+
+/* Banner Flutuante de Conquista */
+.achievement-toast-banner {
+    position: fixed;
+    top: calc(var(--topbar-height) + 16px);
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: rgba(14, 26, 50, 0.96);
+    backdrop-filter: blur(16px);
+    border: 1.5px solid var(--cyber-amber);
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(255, 171, 0, 0.35);
+    z-index: 9998;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.achievement-toast-banner.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.ach-toast-icon {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 171, 0, 0.8));
+}
+
+.ach-toast-sub {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--cyber-amber);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.ach-toast-title {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: #fff;
+    margin: 2px 0;
+}
+
+.ach-toast-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}

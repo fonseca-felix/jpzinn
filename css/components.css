@@ -1,0 +1,1766 @@
+/**
+ * Cyber Defense: Proteja sua Smart Home
+ * Componentes de Interface (components.css)
+ * SESI/SENAI - Técnico em Desenvolvimento de Sistemas
+ */
+
+/* =======================================================
+   1. SIDEBAR FIXA ESQUERDA
+   ======================================================= */
+#app-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(4, 8, 16, 0.95);
+    backdrop-filter: blur(20px);
+    border-right: 1.5px solid var(--border-glass);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sidebar-brand-container {
+    padding: 24px 20px;
+    border-bottom: 1px solid var(--border-glass);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon-shield {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(124, 77, 255, 0.25));
+    border: 1.5px solid var(--cyber-cyan);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+}
+
+.brand-icon-shield svg {
+    width: 26px;
+    height: 26px;
+    fill: var(--cyber-cyan);
+    filter: drop-shadow(0 0 5px var(--cyber-cyan));
+}
+
+.brand-text h1 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.brand-tag-sesi {
+    display: inline-block;
+    margin-top: 3px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: var(--cyber-cyan);
+    background: rgba(0, 229, 255, 0.12);
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+/* Menu de Navegação da Sidebar */
+.sidebar-nav-menu {
+    flex: 1;
+    padding: 24px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-link .nav-icon {
+    font-size: 1.25rem;
+    width: 24px;
+    display: flex;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #fff;
+    background: rgba(0, 229, 255, 0.08);
+    border-left-color: rgba(0, 229, 255, 0.5);
+}
+
+.nav-link:hover .nav-icon {
+    transform: scale(1.15);
+}
+
+.nav-link.active {
+    color: var(--cyber-cyan);
+    background: linear-gradient(90deg, rgba(0, 229, 255, 0.15), rgba(0, 229, 255, 0.02));
+    border-left-color: var(--cyber-cyan);
+    box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.1);
+}
+
+.nav-link.active .nav-icon {
+    filter: drop-shadow(0 0 6px var(--cyber-cyan));
+}
+
+.sidebar-footer-card {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border-glass);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.soc-pulse-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--cyber-green);
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--cyber-green);
+    box-shadow: 0 0 10px var(--cyber-green);
+    animation: pulseSocDot 1.5s infinite;
+}
+
+@keyframes pulseSocDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* =======================================================
+   2. TOPBAR FIXA SUPERIOR
+   ======================================================= */
+#app-topbar {
+    position: fixed;
+    top: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    height: var(--topbar-height);
+    background: rgba(7, 13, 25, 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1.5px solid var(--border-glass);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    z-index: 999;
+}
+
+.topbar-left-cluster {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.level-badge-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(14, 26, 50, 0.8);
+    border: 1px solid var(--border-glass);
+    padding: 6px 14px;
+    border-radius: 6px;
+}
+
+.level-tag {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--cyber-cyan);
+    letter-spacing: 1px;
+}
+
+.level-select-cyber {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.level-select-cyber option {
+    background: var(--bg-deep);
+    color: #fff;
+}
+
+/* Barra de Progresso por Etapas / Nós */
+.nodes-progress-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 170px;
+}
+
+.nodes-progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.progress-track-cyber {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--cyber-cyan);
+    box-shadow: 0 0 8px var(--cyber-cyan);
+    transition: width 0.4s ease;
+}
+
+/* Medidor Dinâmico de Segurança: X% */
+.security-gauge-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(14, 26, 50, 0.7);
+    border: 1px solid var(--border-glass);
+    padding: 8px 18px;
+    border-radius: 6px;
+}
+
+.gauge-icon {
+    font-size: 1.4rem;
+}
+
+.gauge-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.gauge-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.gauge-title-row .label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.gauge-title-row .val {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--cyber-cyan);
+}
+
+.gauge-track {
+    width: 120px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gauge-fill {
+    height: 100%;
+    width: 20%;
+    background: var(--cyber-cyan);
+    box-shadow: 0 0 10px var(--cyber-cyan-glow);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+}
+
+/* Placar de Pontos e Ações Rápidas */
+.topbar-right-cluster {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.score-display-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    background: rgba(124, 77, 255, 0.15);
+    border: 1.5px solid rgba(124, 77, 255, 0.4);
+    border-radius: 6px;
+    box-shadow: 0 0 12px rgba(124, 77, 255, 0.2);
+}
+
+.score-display-box .score-icon {
+    font-size: 1.2rem;
+}
+
+.score-display-box .score-val {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.quick-btn {
+    width: 38px;
+    height: 38px;
+    background: rgba(14, 26, 50, 0.8);
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.quick-btn:hover {
+    border-color: var(--cyber-cyan);
+    color: var(--cyber-cyan);
+    box-shadow: 0 0 10px var(--cyber-cyan-glow);
+    transform: translateY(-1px);
+}
+
+/* =======================================================
+   3. TELA INICIAL ("INÍCIO") & HERO BANNER
+   ======================================================= */
+.hero-banner-container {
+    background: linear-gradient(180deg, rgba(14, 26, 50, 0.75) 0%, rgba(7, 13, 25, 0.95) 100%);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.hero-glow-back {
+    position: absolute;
+    top: -50px;
+    right: 10%;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.18) 0%, rgba(124, 77, 255, 0.08) 50%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+}
+
+.hero-content-split {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-text-col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.hero-badge-tag {
+    align-self: flex-start;
+    padding: 5px 12px;
+    background: rgba(0, 229, 255, 0.12);
+    border: 1px solid var(--cyber-cyan);
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--cyber-cyan);
+    letter-spacing: 1.5px;
+}
+
+.hero-main-title {
+    font-family: var(--font-heading);
+    font-size: 2.7rem;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.5px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+}
+
+.hero-main-title span {
+    color: var(--cyber-cyan);
+    background: linear-gradient(90deg, #00e5ff, #7c4dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.hero-cta-group {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 10px;
+}
+
+/* Ilustração Holográfica da Smart Home no Hero */
+.hero-visual-col {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-holo-dome-wrapper {
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1;
+    position: relative;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.08) 0%, rgba(7, 13, 25, 0.8) 70%);
+    border: 1.5px dashed rgba(0, 229, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: rotateHoloBorder 40s linear infinite;
+}
+
+@keyframes rotateHoloBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hero-house-graphic {
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-house-graphic svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 25px rgba(0, 229, 255, 0.5));
+}
+
+/* Etiquetas Flutuantes Interativas no Hero */
+.hero-device-pill {
+    position: absolute;
+    padding: 6px 12px;
+    background: rgba(7, 13, 25, 0.9);
+    border: 1px solid var(--cyber-cyan);
+    border-radius: 20px;
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 10;
+}
+
+.hero-device-pill:hover {
+    background: var(--cyber-cyan);
+    color: #070d19;
+    box-shadow: 0 0 20px var(--cyber-cyan);
+    transform: scale(1.1);
+}
+
+.pill-camera { top: 12%; left: 8%; }
+.pill-router { top: 6%; right: 15%; }
+.pill-lock { bottom: 20%; left: 2%; }
+.pill-speaker { bottom: 10%; right: 12%; }
+.pill-thermostat { top: 45%; right: -2%; }
+.pill-doorsensor { top: 48%; left: -4%; }
+.pill-bulb { bottom: -2%; left: 35%; }
+
+/* Cards de Destaque da Tela Inicial */
+.home-features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.feature-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    border-color: var(--cyber-cyan);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 229, 255, 0.15);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.feature-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* =======================================================
+   4. MODAL INSPETOR DE DISPOSITIVOS
+   ======================================================= */
+.cyber-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(4, 8, 16, 0.85);
+    backdrop-filter: blur(16px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.cyber-modal-overlay.active {
+    display: flex;
+}
+
+.inspector-modal-box {
+    background: rgba(14, 26, 50, 0.98);
+    border: 1.5px solid var(--cyber-cyan);
+    box-shadow: 0 0 50px rgba(0, 229, 255, 0.25);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 900px;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 32px;
+    animation: zoomModal 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes zoomModal {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    background: var(--cyber-red);
+    border-color: var(--cyber-red);
+    box-shadow: 0 0 15px var(--cyber-red-glow);
+}
+
+/* Header do Inspetor */
+.inspector-header {
+    margin-bottom: 24px;
+}
+
+.device-meta-group {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.device-icon-badge {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.device-icon-badge.vulnerable {
+    background: rgba(255, 59, 92, 0.15);
+    border: 1.5px solid var(--cyber-red);
+    box-shadow: 0 0 20px var(--cyber-red-glow);
+}
+
+.device-icon-badge.secured {
+    background: rgba(0, 230, 118, 0.15);
+    border: 1.5px solid var(--cyber-green);
+    box-shadow: 0 0 20px var(--cyber-green-glow);
+}
+
+.device-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.badge-danger {
+    background: rgba(255, 59, 92, 0.2);
+    color: var(--cyber-red);
+    border: 1px solid var(--cyber-red);
+}
+
+.badge-safe {
+    background: rgba(0, 230, 118, 0.2);
+    color: var(--cyber-green);
+    border: 1px solid var(--cyber-green);
+}
+
+.device-title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: #fff;
+}
+
+.device-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.device-specs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.spec-card {
+    background: rgba(7, 13, 25, 0.75);
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.spec-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.spec-val {
+    font-size: 0.88rem;
+    color: var(--cyber-cyan);
+    font-weight: 600;
+}
+
+/* Console de Logs SOC */
+.soc-terminal-wrapper {
+    background: #02050b;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.terminal-bar {
+    background: rgba(14, 26, 50, 0.9);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+
+.terminal-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+}
+
+.terminal-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cyber-green);
+    background: rgba(0, 230, 118, 0.1);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.terminal-body {
+    padding: 14px;
+    max-height: 140px;
+    overflow-y: auto;
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.log-line {
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: #a0aec0;
+}
+
+.log-tag { color: var(--cyber-cyan); }
+.log-highlight-green { color: var(--cyber-green); font-weight: bold; }
+.log-highlight-red { color: var(--cyber-red); font-weight: bold; }
+.log-ip { color: #f6e05e; }
+.log-port { color: #d6bcfa; }
+
+/* Stepper de 3 Etapas */
+.steps-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.step-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(7, 13, 25, 0.8);
+    border: 2px solid var(--border-glass);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 800;
+}
+
+.step-item.active .step-num {
+    border-color: var(--cyber-cyan);
+    color: #070d19;
+    background: var(--cyber-cyan);
+    box-shadow: 0 0 15px var(--cyber-cyan-glow);
+}
+
+.step-item.completed .step-num {
+    border-color: var(--cyber-green);
+    color: #070d19;
+    background: var(--cyber-green);
+    box-shadow: 0 0 15px var(--cyber-green-glow);
+}
+
+.step-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.step-heading {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-secondary);
+}
+
+.step-item.active .step-heading { color: var(--cyber-cyan); }
+.step-item.completed .step-heading { color: var(--cyber-green); }
+
+.step-desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+.step-line {
+    flex: 1;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 14px;
+}
+
+.step-line.filled {
+    background: var(--cyber-green);
+    box-shadow: 0 0 8px var(--cyber-green-glow);
+}
+
+/* Conteúdo da Etapa */
+.step-action-card {
+    background: rgba(7, 13, 25, 0.7);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.step-prompt-header {
+    margin-bottom: 20px;
+}
+
+.step-badge-tag {
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--cyber-cyan);
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.step-question-text {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: #fff;
+    margin-bottom: 6px;
+}
+
+.step-instructions {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cyber-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: rgba(14, 26, 50, 0.8);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 8px;
+    color: var(--text-primary);
+    text-align: left;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cyber-option-btn:hover:not(:disabled) {
+    border-color: var(--cyber-cyan);
+    background: rgba(0, 229, 255, 0.08);
+    transform: translateX(4px);
+}
+
+.cyber-option-btn .opt-key {
+    width: 28px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--cyber-cyan);
+}
+
+.cyber-option-btn .opt-label {
+    flex: 1;
+}
+
+.cyber-option-btn.option-correct {
+    border-color: var(--cyber-green) !important;
+    background: rgba(0, 230, 118, 0.15) !important;
+    box-shadow: 0 0 20px var(--cyber-green-glow);
+}
+
+.cyber-option-btn.option-wrong {
+    border-color: var(--cyber-red) !important;
+    background: rgba(255, 59, 92, 0.15) !important;
+    box-shadow: 0 0 20px var(--cyber-red-glow);
+}
+
+/* Feedback Pedagógico SESI/SENAI */
+.step-feedback-box {
+    display: none;
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 8px;
+    animation: fadeInView 0.3s ease-out forwards;
+}
+
+.step-feedback-box.show {
+    display: block;
+}
+
+.feedback-success {
+    background: rgba(0, 230, 118, 0.1);
+    border: 1.5px solid var(--cyber-green);
+}
+
+.feedback-error {
+    background: rgba(255, 59, 92, 0.1);
+    border: 1.5px solid var(--cyber-red);
+}
+
+.feedback-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.feedback-badge-success {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--cyber-green);
+    font-size: 0.9rem;
+}
+
+.feedback-badge-error {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    color: var(--cyber-red);
+    font-size: 0.9rem;
+}
+
+.feedback-desc {
+    font-size: 0.92rem;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.feedback-curriculum-tip {
+    background: rgba(0, 229, 255, 0.08);
+    border-left: 3px solid var(--cyber-cyan);
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.feedback-hint {
+    background: rgba(255, 171, 0, 0.1);
+    border-left: 3px solid var(--cyber-amber);
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.feedback-action-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Tela de Resumo de Dispositivo Blindado */
+.device-secured-full {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.shield-anim-icon {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 0 20px var(--cyber-green));
+    margin-bottom: 12px;
+}
+
+.device-secured-full h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--cyber-green);
+    margin-bottom: 6px;
+}
+
+.summary-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 24px 0;
+    text-align: left;
+}
+
+.summary-card {
+    background: rgba(14, 26, 50, 0.8);
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.sc-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--cyber-cyan);
+    text-transform: uppercase;
+}
+
+.sc-val {
+    font-size: 0.85rem;
+    color: #fff;
+    margin-top: 4px;
+}
+
+.technical-dossier-box {
+    background: rgba(0, 229, 255, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    padding: 14px;
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.technical-dossier-box h4 {
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    color: var(--cyber-cyan);
+    margin-bottom: 6px;
+}
+
+.technical-dossier-box p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+/* =======================================================
+   5. TELAS EXTRAS: COMO JOGAR, CONQUISTAS, CONTEÚDOS, CONFIG
+   ======================================================= */
+.page-header-box {
+    margin-bottom: 28px;
+}
+
+.page-header-box h2 {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: #fff;
+}
+
+.page-header-box p {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* Como Jogar Cards */
+.howto-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.howto-card {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 24px;
+}
+
+.howto-card .card-step-num {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--cyber-cyan);
+    margin-bottom: 8px;
+}
+
+.howto-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.howto-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Conquistas Grid */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.achievement-card {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transition: all 0.25s ease;
+}
+
+.achievement-card.unlocked {
+    border-color: var(--cyber-amber);
+    box-shadow: 0 0 20px rgba(255, 171, 0, 0.2);
+}
+
+.achievement-card.locked {
+    opacity: 0.6;
+}
+
+.ach-icon-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.ach-badge-tag {
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--cyber-amber);
+    background: rgba(255, 171, 0, 0.15);
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.ach-glyph {
+    font-size: 2.2rem;
+}
+
+.ach-content {
+    flex: 1;
+}
+
+.ach-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.ach-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 4px 0 8px;
+}
+
+.status-unlocked {
+    color: var(--cyber-green);
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.status-locked {
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+/* Glossário / Conteúdos */
+.kb-tabs-bar {
+    display: flex;
+    gap: 12px;
+    border-bottom: 1.5px solid var(--border-glass);
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+}
+
+.kb-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kb-tab-btn:hover {
+    color: #fff;
+    background: rgba(0, 229, 255, 0.08);
+}
+
+.kb-tab-btn.active {
+    color: var(--cyber-cyan);
+    background: rgba(0, 229, 255, 0.15);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.kb-tab-pane {
+    display: none;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.kb-tab-pane.active {
+    display: grid;
+}
+
+.kb-article-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.kb-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.kb-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--cyber-cyan);
+    background: rgba(0, 229, 255, 0.12);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.kb-port {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.kb-article-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: #fff;
+}
+
+.kb-detail-row {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+}
+
+.kb-best-practice-box {
+    background: rgba(7, 13, 25, 0.7);
+    border-left: 3px solid var(--cyber-green);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: #fff;
+    margin-top: 4px;
+}
+
+/* Configurações */
+.settings-group {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.setting-info h4 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: #fff;
+}
+
+.setting-info p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.cyber-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.cyber-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: .3s;
+    border-radius: 34px;
+}
+
+.switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+    background-color: var(--cyber-cyan);
+    box-shadow: 0 0 10px var(--cyber-cyan);
+}
+
+input:checked + .switch-slider:before {
+    transform: translateX(24px);
+    background-color: #070d19;
+}
+
+.cyber-slider {
+    width: 160px;
+    accent-color: var(--cyber-cyan);
+}
+
+
+/* =======================================================
+   6. LABORATÓRIO INTERATIVO (DRAG & DROP, SWITCHES, SIMULADOR DE ATAQUE)
+   ======================================================= */
+.inspector-nav-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    border-bottom: 1.5px solid var(--border-glass);
+    padding-bottom: 12px;
+}
+
+.modal-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: var(--font-heading);
+    font-size: 0.92rem;
+    font-weight: 800;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.modal-tab-btn:hover {
+    color: #fff;
+    background: rgba(0, 229, 255, 0.08);
+}
+
+.modal-tab-btn.active {
+    color: var(--cyber-cyan);
+    background: rgba(0, 229, 255, 0.16);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
+    border: 1px solid var(--cyber-cyan);
+}
+
+/* Área de Drag & Drop */
+.dnd-section-container {
+    background: rgba(7, 13, 25, 0.8);
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.dnd-header-title {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: var(--cyber-cyan);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dnd-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.dnd-arena-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.dnd-col {
+    background: rgba(14, 26, 50, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 14px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dnd-col-title {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modules-pool {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+/* Módulo Arrastável */
+.draggable-module {
+    background: rgba(14, 26, 50, 0.95);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 6px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: grab;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.draggable-module:hover {
+    border-color: var(--cyber-cyan);
+    background: rgba(0, 229, 255, 0.1);
+    box-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
+    transform: translateY(-2px);
+}
+
+.draggable-module:active {
+    cursor: grabbing;
+}
+
+.draggable-module.dragging {
+    opacity: 0.4;
+    border-style: dashed;
+}
+
+.module-icon {
+    font-size: 1.4rem;
+}
+
+.module-info {
+    flex: 1;
+}
+
+.module-name {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.module-desc {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Slots de Encaixe de Defesa */
+.defense-slots-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.defense-slot {
+    border: 2px dashed rgba(0, 229, 255, 0.35);
+    border-radius: 8px;
+    min-height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: rgba(4, 8, 16, 0.4);
+    transition: all 0.25s ease;
+}
+
+.defense-slot.slot-dragover {
+    border-color: var(--cyber-green);
+    background: rgba(0, 230, 118, 0.15);
+    box-shadow: 0 0 15px var(--cyber-green-glow);
+}
+
+.defense-slot.occupied {
+    border-style: solid;
+    border-color: var(--cyber-green);
+    background: rgba(0, 230, 118, 0.1);
+}
+
+.slot-placeholder {
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    pointer-events: none;
+}
+
+/* Grade de Controles & Switches Interativos */
+.interactive-controls-card {
+    background: rgba(7, 13, 25, 0.8);
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.control-item {
+    background: rgba(14, 26, 50, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.control-label {
+    font-family: var(--font-heading);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.cyber-select-inline {
+    background: var(--bg-deep);
+    border: 1px solid var(--cyber-cyan);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    outline: none;
+}
+
+/* Terminal de Comandos Interativo */
+.terminal-command-deck {
+    background: #02050b;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 24px;
+}
+
+.command-deck-title {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--cyber-cyan);
+    margin-bottom: 10px;
+}
+
+.quick-commands-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cmd-pill-btn {
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: var(--cyber-cyan);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cmd-pill-btn:hover {
+    background: var(--cyber-cyan);
+    color: #070d19;
+    box-shadow: 0 0 10px var(--cyber-cyan);
+}
+
+/* Área de Simulação de Ataque em Tempo Real */
+.attack-simulation-box {
+    background: linear-gradient(135deg, rgba(14, 26, 50, 0.95), rgba(7, 13, 25, 0.98));
+    border: 1.5px solid var(--cyber-cyan);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.attack-sim-info h4 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.attack-sim-info p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.attack-result-badge {
+    display: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: var(--font-heading);
+    font-size: 0.88rem;
+    font-weight: 800;
+}
+
+.attack-result-badge.success {
+    display: block;
+    background: rgba(0, 230, 118, 0.2);
+    border: 1.5px solid var(--cyber-green);
+    color: var(--cyber-green);
+    box-shadow: 0 0 15px var(--cyber-green-glow);
+}
+
+.attack-result-badge.fail {
+    display: block;
+    background: rgba(255, 59, 92, 0.2);
+    border: 1.5px solid var(--cyber-red);
+    color: var(--cyber-red);
+    box-shadow: 0 0 15px var(--cyber-red-glow);
+}
+
+
+/* =======================================================
+   7. FORMATAÇÃO GERAL DE ÍCONES SVG VETORIAIS
+   ======================================================= */
+.nav-icon svg,
+.gauge-icon svg,
+.score-icon svg,
+.quick-btn svg,
+.hero-device-pill svg,
+.scan-radar-btn svg,
+.modal-tab-btn svg,
+.dnd-header-title svg,
+.feature-icon svg,
+.ach-glyph svg,
+.module-icon svg {
+    display: inline-block;
+    vertical-align: middle;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+}
+
+.gauge-icon {
+    display: flex;
+    align-items: center;
+    color: var(--cyber-cyan);
+}
+
+.score-icon {
+    display: flex;
+    align-items: center;
+    color: var(--cyber-amber);
+}
+
+.hero-device-pill svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+}
+
+.quick-btn svg {
+    width: 18px;
+    height: 18px;
+}

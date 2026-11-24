@@ -1,0 +1,337 @@
+/**
+ * Cyber Defense: Proteja sua Smart Home
+ * Estilos do Mapa Isométrico & Cúpula Holográfica (isometric-map.css)
+ * SESI/SENAI - Técnico em Desenvolvimento de Sistemas
+ */
+
+/* Container Principal do Gameplay */
+.gameplay-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+}
+
+/* Área do Mapa Isométrico */
+.map-canvas-container {
+    background: radial-gradient(circle at 50% 50%, #0c182e 0%, #060c18 85%);
+    border: 1.5px solid var(--cyber-cyan);
+    box-shadow: 0 0 35px rgba(0, 229, 255, 0.15);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    min-height: 580px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Canvas da Cúpula Holográfica Sobreposto */
+#dome-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* SVG Isométrico */
+.isometric-svg {
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    position: relative;
+    z-index: 3;
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7));
+}
+
+/* Cômodos da Casa */
+.room-group {
+    cursor: default;
+    transition: opacity 0.3s ease;
+}
+
+.room-group.dimmed {
+    opacity: 0.25;
+    filter: grayscale(0.8);
+}
+
+.room-label {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: 800;
+    fill: rgba(0, 229, 255, 0.9);
+    letter-spacing: 2px;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+}
+
+/* Linhas de Barramento IoT */
+.iot-bus-lines line {
+    stroke-dashoffset: 0;
+    animation: dashStream 2s linear infinite;
+}
+
+@keyframes dashStream {
+    to { stroke-dashoffset: -12; }
+}
+
+/* Nós de Dispositivos Inteligentes */
+.device-node {
+    cursor: pointer;
+    /* SEM transform no hover para não quebrar coordenadas SVG */
+}
+
+.device-node:hover .node-base-ring {
+    stroke-width: 4px;
+    filter: drop-shadow(0 0 12px var(--cyber-cyan));
+}
+
+.device-node:hover .node-tag rect {
+    fill: rgba(14, 26, 50, 0.98);
+    stroke: var(--cyber-cyan);
+    stroke-width: 2px;
+}
+
+/* Animação de Pulso de Alerta / Segurança */
+@keyframes pulseDanger {
+    0% { r: 20px; opacity: 0.8; }
+    50% { r: 34px; opacity: 0.15; }
+    100% { r: 20px; opacity: 0.8; }
+}
+
+@keyframes pulseSafe {
+    0% { r: 20px; opacity: 0.7; }
+    50% { r: 32px; opacity: 0.1; }
+    100% { r: 20px; opacity: 0.7; }
+}
+
+.node-vulnerable .pulse-ring {
+    animation: pulseDanger 1.8s ease-in-out infinite;
+}
+
+.node-secured .pulse-ring {
+    animation: pulseSafe 2.5s ease-in-out infinite;
+}
+
+.node-base-ring {
+    transition: stroke-width 0.2s ease, filter 0.2s ease;
+}
+
+/* Rótulos e Tags dos Dispositivos */
+.node-tag rect {
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.8));
+    transition: all 0.2s ease;
+}
+
+/* Balões Flutuantes SOC Compactos */
+.soc-threat-bubble {
+    animation: floatThreat 2s ease-in-out infinite;
+}
+
+.soc-secured-bubble {
+    animation: floatSecured 3s ease-in-out infinite;
+}
+
+@keyframes floatThreat {
+    0%, 100% { transform: translate(0, -32px); }
+    50% { transform: translate(0, -36px); }
+}
+
+@keyframes floatSecured {
+    0%, 100% { transform: translate(0, -32px); }
+    50% { transform: translate(0, -35px); }
+}
+
+/* Barra de Filtros de Cômodos */
+.map-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    background: rgba(14, 26, 50, 0.7);
+    border: 1px solid var(--border-glass);
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.filter-lbl {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.filter-room-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-room-btn:hover {
+    color: #fff;
+    border-color: var(--cyber-cyan);
+}
+
+.filter-room-btn.active {
+    background: var(--cyber-cyan);
+    color: #070d19;
+    font-weight: 800;
+    border-color: var(--cyber-cyan);
+    box-shadow: 0 0 10px var(--cyber-cyan-glow);
+}
+
+/* Botão de Varredura / Radar Interativo */
+.map-actions-cluster {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.scan-radar-btn {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(0, 229, 255, 0.05));
+    border: 1px solid var(--cyber-cyan);
+    color: var(--cyber-cyan);
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.scan-radar-btn:hover {
+    background: var(--cyber-cyan);
+    color: #070d19;
+    box-shadow: 0 0 15px var(--cyber-cyan-glow);
+}
+
+/* Painel Lateral SOC do Gameplay */
+.game-soc-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.soc-status-card {
+    background: var(--bg-surface);
+    border: 1.5px solid var(--border-glass);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.soc-status-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.threat-radar-indicator {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.threat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.threat-bar {
+    width: 120px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.threat-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.threat-fill-critical {
+    width: 85%;
+    background: var(--cyber-red);
+    box-shadow: 0 0 8px var(--cyber-red);
+}
+
+.threat-fill-medium {
+    width: 50%;
+    background: var(--cyber-amber);
+    box-shadow: 0 0 8px var(--cyber-amber);
+}
+
+.threat-fill-low {
+    width: 20%;
+    background: var(--cyber-green);
+    box-shadow: 0 0 8px var(--cyber-green);
+}
+
+/* Feed de Logs SOC ao Vivo */
+.soc-live-feed-card {
+    background: rgba(4, 8, 16, 0.95);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+}
+
+.feed-header {
+    background: rgba(14, 26, 50, 0.9);
+    padding: 10px 14px;
+    font-family: var(--font-heading);
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--cyber-cyan);
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(0, 229, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.soc-live-stream-box {
+    padding: 12px;
+    flex: 1;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.soc-feed-line {
+    animation: fadeInView 0.25s ease-out;
+}
+
+.soc-feed-line .time {
+    color: var(--text-muted);
+}
+
+.soc-feed-line .text {
+    color: #cbd5e0;
+}
